@@ -3,7 +3,7 @@ import os
 import sys
 import configparser
 from tkinter import *
-
+import tkinter.filedialog as filedialog
 
 
 Table_x = 1
@@ -37,22 +37,26 @@ def CreateNewFile(self):
     root2 = Tk()
     def DoneAndClose(self):
         Name = ObjName.get()
-        Path = FPath.get()
+        Path = root2.filename
         create_button(Name, Path, str(Table_x+1))
         CreateNewConfRecord(Name, Path)
         root2.destroy()
+
+    def _ChoiceNewFile (self):
+        root2.filename = filedialog.askopenfilename(initialdir="/", title="Select file",filetypes=(("all files", "*.*"), ("jpeg files", "*.jpg")))
 
     root2.title('Создать новый файл')
     root2.geometry('400x130')
     EnterName = Label(root2, text='Введите наименование:', bg='grey', fg='yellow', width=20, height=2)
     ObjName = Entry(root2)
-    FilePath = Label(root2, text='Введите путь файла:', bg='grey', fg='yellow', width=20, height=2)
-    FPath = Entry(root2)
+    FilePath = Label(root2, text='Укажите путь файла:', bg='grey', fg='yellow', width=20, height=2)
+    FPath = Button(root2, text='Выбрать', bg='grey80', fg='black', width=20, height=1)
 
     EnterName.grid(row=0, column=0, sticky='w')
     ObjName.grid(row=0, column=1, sticky='w')
     FilePath.grid(row=1, column=0, sticky='w')
     FPath.grid(row=1, column=1, sticky='w')
+    FPath.bind('<Button 1>', _ChoiceNewFile)
 
     DoneButton = Button(root2, text='Готово', bg='grey', fg='yellow', width=20, height=2)
     DoneButton.grid(row=3, column=0)
